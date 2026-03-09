@@ -1,0 +1,783 @@
+{
+  "info": {
+    "name": "Movie Database API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "e1f7c2a0-9b3c-4d8e-a9f2-5c4e8d2b7c9a"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Genres",
+      "item": [
+        {
+          "name": "CRUD Operations",
+          "item": [
+            {
+              "name": "Create Genre",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/genres",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "genres"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"name\": \"Horror\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "description": "Create a new genre (e.g., Horror)."
+              },
+              "response": []
+            },
+            {
+              "name": "Get All Genres (Paginated)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/genres?page=0&size=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "genres"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    }
+                  ]
+                },
+                "description": "Retrieve all genres with pagination."
+              },
+              "response": []
+            },
+            {
+              "name": "Get Genre by ID",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/genres/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "genres", "1"]
+                },
+                "description": "Get genre with ID 1 (e.g., Action)."
+              },
+              "response": []
+            },
+            {
+              "name": "Update Genre (Partial)",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/genres/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "genres", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"name\": \"Action Updated\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "description": "Partially update genre name."
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Genre (Default)",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/genres/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "genres", "1"]
+                },
+                "description": "Try to delete genre with ID 1 (should fail if movies exist)."
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Genre (Force)",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/genres/1?force=true",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "genres", "1"],
+                  "query": [
+                    {
+                      "key": "force",
+                      "value": "true"
+                    }
+                  ]
+                },
+                "description": "Force delete genre with ID 1 (removes relationships)."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Get Movies for Genre",
+          "item": [
+            {
+              "name": "Get Movies by Genre ID",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/genres/1/movies",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "genres", "1", "movies"]
+                },
+                "description": "Get all movies for genre ID 1 (e.g., Action)."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Error Scenarios",
+          "item": [
+            {
+              "name": "Get Non-Existent Genre",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/genres/999",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "genres", "999"]
+                },
+                "description": "Test 404 for non-existent genre."
+              },
+              "response": []
+            },
+            {
+              "name": "Create Invalid Genre",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/genres",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "genres"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"name\": \"\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "description": "Test 400 for empty name."
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Movies",
+      "item": [
+        {
+          "name": "CRUD Operations",
+          "item": [
+            {
+              "name": "Create Movie",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/movies",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "movies"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"title\": \"New Movie\", \"releaseYear\": 2023, \"duration\": 120, \"genreIds\": [1, 2], \"actorIds\": [1]}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "description": "Create a new movie with genres and actors."
+              },
+              "response": []
+            },
+            {
+              "name": "Get All Movies (Paginated)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/movies?page=0&size=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "movies"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    }
+                  ]
+                },
+                "description": "Retrieve all movies with pagination."
+              },
+              "response": []
+            },
+            {
+              "name": "Get Movie by ID",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/movies/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "movies", "1"]
+                },
+                "description": "Get movie with ID 1 (e.g., Inception)."
+              },
+              "response": []
+            },
+            {
+              "name": "Update Movie (Partial)",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/movies/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "movies", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"title\": \"Inception Updated\", \"genreIds\": [1, 3]}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "description": "Partially update movie title and genres."
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Movie (Default)",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/movies/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "movies", "1"]
+                },
+                "description": "Try to delete movie with ID 1 (should fail if relationships exist)."
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Movie (Force)",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/movies/1?force=true",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "movies", "1"],
+                  "query": [
+                    {
+                      "key": "force",
+                      "value": "true"
+                    }
+                  ]
+                },
+                "description": "Force delete movie with ID 1 (removes relationships)."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Filtering",
+          "item": [
+            {
+              "name": "Filter by Genre",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/movies?genre=1&page=0&size=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "movies"],
+                  "query": [
+                    {
+                      "key": "genre",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    }
+                  ]
+                },
+                "description": "Get movies for genre ID 1 (e.g., Action)."
+              },
+              "response": []
+            },
+            {
+              "name": "Filter by Year",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/movies?year=2010&page=0&size=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "movies"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "2010"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    }
+                  ]
+                },
+                "description": "Get movies released in 2010."
+              },
+              "response": []
+            },
+            {
+              "name": "Filter by Actor",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/movies?actor=1&page=0&size=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "movies"],
+                  "query": [
+                    {
+                      "key": "actor",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    }
+                  ]
+                },
+                "description": "Get movies for actor ID 1 (e.g., Leonardo DiCaprio)."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Search",
+          "item": [
+            {
+              "name": "Search by Title",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/movies/search?title=inc&page=0&size=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "movies", "search"],
+                  "query": [
+                    {
+                      "key": "title",
+                      "value": "inc"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    }
+                  ]
+                },
+                "description": "Search for movies with 'inc' in title (e.g., Inception)."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Get Actors for Movie",
+          "item": [
+            {
+              "name": "Get Actors by Movie ID",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/movies/1/actors",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "movies", "1", "actors"]
+                },
+                "description": "Get all actors for movie ID 1 (e.g., Inception)."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Error Scenarios",
+          "item": [
+            {
+              "name": "Get Non-Existent Movie",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/movies/999",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "movies", "999"]
+                },
+                "description": "Test 404 for non-existent movie."
+              },
+              "response": []
+            },
+            {
+              "name": "Create Invalid Movie",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/movies",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "movies"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"title\": \"\", \"releaseYear\": 2023, \"duration\": 120}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "description": "Test 400 for empty title."
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Actors",
+      "item": [
+        {
+          "name": "CRUD Operations",
+          "item": [
+            {
+              "name": "Create Actor",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/actors",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "actors"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"name\": \"New Actor\", \"birthDate\": \"1995-01-01\", \"movieIds\": [1]}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "description": "Create a new actor with movies."
+              },
+              "response": []
+            },
+            {
+              "name": "Get All Actors (Paginated)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/actors?page=0&size=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "actors"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    }
+                  ]
+                },
+                "description": "Retrieve all actors with pagination."
+              },
+              "response": []
+            },
+            {
+              "name": "Get Actor by ID",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/actors/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "actors", "1"]
+                },
+                "description": "Get actor with ID 1 (e.g., Leonardo DiCaprio)."
+              },
+              "response": []
+            },
+            {
+              "name": "Update Actor (Partial)",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/actors/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "actors", "1"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"name\": \"Leo Updated\", \"movieIds\": [1, 2]}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "description": "Partially update actor name and movies."
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Actor (Default)",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/actors/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "actors", "1"]
+                },
+                "description": "Try to delete actor with ID 1 (should fail if movies exist)."
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Actor (Force)",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/actors/1?force=true",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "actors", "1"],
+                  "query": [
+                    {
+                      "key": "force",
+                      "value": "true"
+                    }
+                  ]
+                },
+                "description": "Force delete actor with ID 1 (removes relationships)."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Filtering",
+          "item": [
+            {
+              "name": "Filter by Name",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/actors?name=leo&page=0&size=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "actors"],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "leo"
+                    },
+                    {
+                      "key": "page",
+                      "value": "0"
+                    },
+                    {
+                      "key": "size",
+                      "value": "10"
+                    }
+                  ]
+                },
+                "description": "Get actors with 'leo' in name (e.g., Leonardo DiCaprio)."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Get Movies for Actor",
+          "item": [
+            {
+              "name": "Get Movies by Actor ID",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/actors/1/movies",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "actors", "1", "movies"]
+                },
+                "description": "Get all movies for actor ID 1 (e.g., Leonardo DiCaprio)."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Error Scenarios",
+          "item": [
+            {
+              "name": "Get Non-Existent Actor",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/actors/999",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "actors", "999"]
+                },
+                "description": "Test 404 for non-existent actor."
+              },
+              "response": []
+            },
+            {
+              "name": "Create Invalid Actor",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/api/actors",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["api", "actors"]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"name\": \"\", \"birthDate\": \"2025-01-01\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "description": "Test 400 for empty name or future birth date."
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Database Management",
+      "item": [
+        {
+          "name": "Fill Database",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Basic YWRtaW46cGFzc3dvcmQ=",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/fill",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "fill"]
+            },
+            "description": "Fill the database with sample data (requires ADMIN role). Creates 5 genres, 15 actors, and 20 movies with relationships."
+          },
+          "response": []
+        },
+        {
+          "name": "Clear Database",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Basic YWRtaW46cGFzc3dvcmQ=",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/clear",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "clear"]
+            },
+            "description": "Clear all data from the database (requires ADMIN role). Deletes all movies, actors, and genres."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
